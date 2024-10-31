@@ -1,3 +1,19 @@
 {
-  "redirects": [{ "source": "/", "destination": "/api" }]
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/api"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/job",
+      "schedule": "0 6 * * *"
+    }
+  ],
+  "functions": {
+    "api/cron/*": {
+      "maxDuration": 60
+    }
+  }
 }

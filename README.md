@@ -1,24 +1,51 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fhello-world&demo-title=Python%20Hello%20World&demo-description=Use%20Python%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fpython-hello-world.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994600/random/python.png)
+# arXiv Sentinel 🤖
+This is an LLM Agent system, which can be deployed in a [Vercel](https://vercel.com/) serverless function. 
+- Scan arXiv
+- Summarizes papers by LLM
+- Send you report emails
 
-# Python Hello World
 
-This example shows how to use Python on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
-
-## Demo
-
-https://python-hello-world.vercel.app/
-
-## Running Locally
-
-```bash
-npm i -g vercel
-vercel dev
+Lets our LLM assistant help you automatically configure this bot!
+```shell
+python assistant.py
 ```
 
-Your Python API is now available at `http://localhost:3000/api`.
+## Manual Configuration
+Prerequisite:
+```shell
+# Google App password
+https://myaccount.google.com/apppasswords
 
-## One-Click Deploy
+# Vercel Account:
+https://vercel.com
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+# OpenAI API Key
+https://platform.openai.com/settings/profile?tab=api-keys
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fhello-world&demo-title=Python%20Hello%20World&demo-description=Use%20Python%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fpython-hello-world.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994600/random/python.png)
+# arXiv topic
+https://arxiv.org/
+
+```
+
+Deploy:
+```shell
+ vercel deploy --prod
+```
+
+Test Locally:
+```shell
+vercel dev
+
+curl http://localhost:3000/api/cron/job
+```
+
+Env var setup:
+```shell
+vercel env add
+# EMAIL_ADDRESS="your_email_address@gmail.com"
+# EMAIL_PASSWORD="your_google_app_password"
+# OPENAI_API_KEY="your_opanai_API_key"
+# PAPER_TOPIC="arXiv_topic"
+# TARGET_ADDRESS="email_address_to_get_report "
+
+```

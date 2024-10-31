@@ -1,5 +1,7 @@
-import os
 from http.server import BaseHTTPRequestHandler
+
+from utils.utils import run
+
 
 class handler(BaseHTTPRequestHandler):
 
@@ -7,6 +9,8 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type','text/plain')
         self.end_headers()
-        self.wfile.write('Hello, world...!'.encode('utf-8'))
-        # self.send_email_internal()
+        self.wfile.write('arXiv email job trigger......'.encode('utf-8'))
+
+        run()
+
         return
