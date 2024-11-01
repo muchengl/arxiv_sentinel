@@ -1,11 +1,12 @@
 # arXiv Sentinel 🤖
 This is an LLM Agent system, which can be deployed in a [Vercel](https://vercel.com/) serverless function. 
-- Scan arXiv
-- Summarizes papers by LLM
-- Send you report emails
+Contains the following functions:
+- Scan arXiv by configuration
+- Summarizes new papers by LLM
+- Send you a paper report via email
 
 
-Lets our LLM assistant help you automatically configure this bot!
+Let our LLM assistant help you automatically configure this bot!
 ```shell
 python assistant.py
 ```
@@ -13,30 +14,21 @@ python assistant.py
 ## Manual Configuration
 Prerequisite:
 ```shell
-# Google App password
-https://myaccount.google.com/apppasswords
-
 # Vercel Account:
 https://vercel.com
+
+# Install vercel cli tool
+https://vercel.com/docs/cli
+
+# Google App password
+https://myaccount.google.com/apppasswords
 
 # OpenAI API Key
 https://platform.openai.com/settings/profile?tab=api-keys
 
-# arXiv topic
+# arXiv topic (e.g. cs.AI)
 https://arxiv.org/
 
-```
-
-Deploy:
-```shell
- vercel deploy --prod
-```
-
-Test Locally:
-```shell
-vercel dev
-
-curl http://localhost:3000/api/cron/job
 ```
 
 Env var setup:
@@ -49,3 +41,16 @@ vercel env add
 # TARGET_ADDRESS="email_address_to_get_report "
 
 ```
+
+Deploy to Vercel:
+```shell
+ vercel deploy --prod
+```
+
+Test Locally:
+```shell
+vercel dev
+
+curl http://localhost:3000/api/cron/job
+```
+
