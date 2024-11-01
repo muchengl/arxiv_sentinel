@@ -18,3 +18,5 @@ Werkzeug*/*
 sys.env
 
 .env*.local
+
+.idea
