@@ -5,5 +5,3 @@ urllib3
 PyMuPDF
 Pillow
 ics
-langchain_core
-langchain_google_community

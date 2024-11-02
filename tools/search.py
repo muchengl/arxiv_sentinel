@@ -2,6 +2,8 @@ import os
 from langchain_core.tools import Tool
 from langchain_google_community import GoogleSearchAPIWrapper
 
+# langchain_core
+# langchain_google_community
 
 def search(query, cse_id, api_key):
     c = input(f"Google Search: {query} help\n(y/n)")
