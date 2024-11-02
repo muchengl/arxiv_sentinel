@@ -51,7 +51,7 @@ def invoke_local_llm(msg: list) -> str:
 
     chat_completion = client.chat.completions.create(
         messages=msg,
-        model='llama3.2',
+        model='llama3.1:8b',
         temperature=0
     )
 

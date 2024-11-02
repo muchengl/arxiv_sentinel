@@ -2,13 +2,6 @@ import os
 from langchain_core.tools import Tool
 from langchain_google_community import GoogleSearchAPIWrapper
 
-search = GoogleSearchAPIWrapper()
-
-tool = Tool(
-    name="google_search",
-    description="Search Google for recent results.",
-    func=search.run,
-)
 
 def search(query, cse_id, api_key):
     c = input(f"Google Search: {query} help\n(y/n)")
@@ -17,6 +10,14 @@ def search(query, cse_id, api_key):
 
     os.environ["GOOGLE_CSE_ID"] = cse_id
     os.environ["GOOGLE_API_KEY"] = api_key
+
+    search = GoogleSearchAPIWrapper()
+
+    tool = Tool(
+        name="google_search",
+        description="Search Google for recent results.",
+        func=search.run,
+    )
 
     try:
         result = tool.run(query)

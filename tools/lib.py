@@ -34,6 +34,7 @@ CLI Tools:
     
     Remove env variables in vercel:
     vercel env rm [name]
+    (you should remove env variables before you update it)
     
     Get Existing env variables (you will get a file '.env.local'):
     vercel env pull

@@ -31,7 +31,7 @@ def execute_cli_command(command):
         print(f"Command execution failed:\n{e.stderr}")
         return e.stderr
 
-    return "Command executed successfully."
+    return f"Command executed successfully. \n{output}"
 
 
 # # cli_executor.py

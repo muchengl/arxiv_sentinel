@@ -7,7 +7,7 @@ import os
 import openai
 
 from tools.search import search
-from utils.llm import invoke_local_llm, invoke_llm_
+from utils.llm import invoke_local_llm, invoke_llm_, invoke_llm
 
 # Import the tools
 from tools import (
@@ -80,6 +80,7 @@ Available Actions:
 Note, To ensure success: 
     1. Respond only with actions, and do not include any additional text.
     2. Respond only one action at a time
+    
 """
         self.conversation_history.append({
             "role": "system",
@@ -89,6 +90,11 @@ Note, To ensure success:
         self.conversation_history.append({
             "role": "system",
             "content": f"knowledge base: \n\n{get_lib()}"
+        })
+
+        self.conversation_history.append({
+            "role": "system",
+            "content": "You can't execute actions directly. You need to first collect user needs and then perform tasks based on the needs."
         })
 
     def get_llm_response(self, prompt=""):
