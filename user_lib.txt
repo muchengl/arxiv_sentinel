@@ -1,0 +1,3 @@
+User Info:
+    GOOGLE_CSE_ID = "17394f6a022314445"
+    GOOGLE_API_KEY = "AIzaSyB4tZuM1Wc9Gme_VURnk4wW13tmuVPqkLk"

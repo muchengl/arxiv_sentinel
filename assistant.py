@@ -5,6 +5,8 @@ import re
 from loguru import logger
 import os
 import openai
+
+from tools.search import search
 from utils.llm import invoke_local_llm, invoke_llm_
 
 # Import the tools
@@ -72,6 +74,7 @@ Available Actions:
 - GetUserInput(prompt='...')
 - OutputInformation(info='...')
 - ReadFile(file_path='...')
+- Search(query='...', cse_id='...', api_key='...')
 - QUIT 
 
 Note, To ensure success: 
@@ -207,6 +210,22 @@ Note, To ensure success:
                     })
                 else:
                     err = "File path parameter missing in ReadFile action."
+
+            elif action_str.startswith("Search"):
+                params = self.extract_params(action_str)
+
+                query = params.get('query')
+                cse_id = params.get('cse_id')
+                api_key = params.get('api_key')
+
+                if query:
+                    content = search(query, cse_id, api_key)
+                    self.conversation_history.append({
+                        "role": "user",
+                        "content": f"Search result: \n\n{content}"
+                    })
+                else:
+                    err = "Query parameter missing in Search action."
 
             else:
                 err = f"Unknown action: {action_str}"

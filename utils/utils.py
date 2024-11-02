@@ -49,7 +49,7 @@ def fetch_today_papers(topic=PAPER_TOPIC):
     params = {
         "search_query": f"cat:{topic}",
         "sortBy": "submittedDate",
-        "max_results": 2
+        "max_results": 1
     }
 
     # encoded_params = urllib3.request.urlencode(params)
@@ -151,7 +151,14 @@ def summarize_chunks(chunks):
     logger.info("Summarizing chunks...")
     summaries = []
     for chunk in chunks:
-        prompt = f"Please summarize the key points below：\n\n{chunk['content']}"
+        prompt = f"""
+This is a chapter of the paper. Please summarize the content from the following aspects:
+1. What was done
+2. The process
+3. What was the result
+
+{chunk['content']}"""
+
         summary = invoke_llm(prompt)
         logger.debug(f"Summary for chunk {chunk['title']}: {summary}")
         summaries.append({'title': chunk['title'], 'summary': summary})

@@ -17,6 +17,9 @@ Websites:
 
     Arxiv homepage:
     https://arxiv.org/
+    
+    Search tool setup:
+    https://python.langchain.com/docs/integrations/tools/google_search/
 
 CLI Tools:
     Local test vercel project:
@@ -34,7 +37,10 @@ CLI Tools:
     
     Get Existing env variables (you will get a file '.env.local'):
     vercel env pull
-
     """
+
+    with open("user_lib.txt") as file:
+        user_info = file.read()
+        lib = lib+"\n\n"+user_info
 
     return lib
