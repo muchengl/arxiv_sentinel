@@ -1,4 +1,6 @@
 import os
+from email import encoders
+from email.mime.base import MIMEBase
 
 import urllib3
 import urllib.parse
@@ -8,12 +10,13 @@ import logging
 import re
 import PyPDF2
 import openai
-from datetime import datetime
+from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from xml.etree import ElementTree as ET
-from llm import invoke_llm
+from utils.llm import invoke_llm
+from utils.calendar import create_ics_file, estimate_reading_time
 
 http = urllib3.PoolManager(cert_reqs='CERT_NONE')
 
@@ -177,7 +180,7 @@ def construct_report(paper_summaries):
 
 from email.mime.image import MIMEImage
 
-def send_email(subject, html_content, to_addr, images=[]):
+def send_email(subject, html_content, to_addr, images=[], ics_path=None):
     logger.info("Sending email...")
     message = MIMEMultipart()
     message['From'] = EMAIL_ADDRESS
@@ -186,11 +189,20 @@ def send_email(subject, html_content, to_addr, images=[]):
 
     message.attach(MIMEText(html_content, 'html'))
 
-    for i, image_content in enumerate(images):
-        mime_image = MIMEImage(image_content, _subtype='png')
-        mime_image.add_header('Content-ID', f'<image{i}>')
-        mime_image.add_header('Content-Disposition', 'inline', filename=f'image{i}.png')
-        message.attach(mime_image)
+    # for i, image_content in enumerate(images):
+    #     mime_image = MIMEImage(image_content, _subtype='png')
+    #     mime_image.add_header('Content-ID', f'<image{i}>')
+    #     mime_image.add_header('Content-Disposition', 'inline', filename=f'image{i}.png')
+    #     message.attach(mime_image)
+
+     # Attach the ICS file if available
+    if ics_path and os.path.exists(ics_path):
+        with open(ics_path, 'rb') as f:
+            mime_ics = MIMEBase('application', 'octet-stream')
+            mime_ics.set_payload(f.read())
+            encoders.encode_base64(mime_ics)
+            mime_ics.add_header('Content-Disposition', 'attachment', filename=os.path.basename(ics_path))
+            message.attach(mime_ics)
 
     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
         server.starttls()
@@ -217,11 +229,13 @@ def run():
         papers = parse_and_download_papers(xml_data)
 
         all_images = []
+        total_text_content = ""
 
         paper_summaries = []
         for paper in papers:
             logger.info(f"Processing paper: {paper['title']}")
             text_content, images = extract_text_and_images(paper['filename'])
+            total_text_content += text_content
 
             all_images.extend(images)
 
@@ -240,12 +254,29 @@ def run():
                     'summaries': summaries
                 })
 
-        # report = construct_report(paper_summaries)
-        # send_email("Daily arXiv Paper News 🚀", report, TARGET_ADDRESS)
+        # Estimate reading time
+        reading_time_minutes = estimate_reading_time(total_text_content)
+        start_time = datetime.now()
+        end_time = start_time + timedelta(minutes=reading_time_minutes)
+
+        # Create ICS file with estimated reading time
+        ics_file_name = "reading_schedule.ics"
+        create_ics_file(
+                event_name="arXiv Paper Reading",
+                start_time=start_time,
+                end_time=end_time,
+                description="Scheduled time for reading today's arXiv papers.",
+                location="Anywhere",
+                file_name=ics_file_name
+        )
 
         report = construct_report(paper_summaries)
-        send_email("Daily arXiv Paper News 🚀", report, TARGET_ADDRESS,
-                   images=[image_content for image_content in all_images])
+        send_email(
+            "Daily arXiv Paper News 🚀",
+            report,
+            TARGET_ADDRESS,
+            images=[image_content for image_content in all_images],
+            ics_path=ics_file_name)
         delete_papers()
 
     except Exception as e:
