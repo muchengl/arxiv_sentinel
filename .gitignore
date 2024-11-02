@@ -20,3 +20,5 @@ sys.env
 .env*.local
 
 .idea
+
+user_lib.txt
